@@ -3,6 +3,6 @@ export const Description = '基于VuePress的个人博客，记录日常开发�
 export const Repo = ''
 export const AuthorName = 'CocaCola🥤🥤🥤'
 export const HostName = ''
-export const Base = '/vuepressProject/'
+export const Base = '/'
 // tidaima
 // export const Base = '/hope/'
