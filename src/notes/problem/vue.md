@@ -221,7 +221,14 @@ console.log('c' in obj, obj.c)
 // getter c!
 // false undefined
 ```
-18 .nextTick的理的方式解
-```js
-    console.log(1212121)
+18 .nextTick的理解
+```text
+Vue 的nextTick基于 JavaScript 的事件循环机制实现。当我们修改数据时，
+Vue 会将数据变更和 DOM 更新的操作推入一个队列中，
+然后使用微任务或宏任务的方式在下一个 tick 时执行队列中的操作。
+具体来说，当数据变更后，Vue 会先执行同步的数据变更操作，
+然后将需要更新的 DOM 操作推入微任务队列或宏任务队列，等待当前执行栈清空后执行。
+在任务队列执行完毕后，Vue 会触发 nextTick 的回调函数，以便我们可以在 DOM 更新完成后执行相应的操作。
+它的底层原理是通过利用 JavaScript 的任务队列来实现的
+
 ```

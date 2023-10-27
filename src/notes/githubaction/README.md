@@ -5,6 +5,6 @@ dir:
   order: 12
 ---
 
-# threejs
+# githubaction
 
 <AutoCatalog />
