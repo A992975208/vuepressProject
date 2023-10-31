@@ -19,9 +19,9 @@
 
 在项目的action中去添加main.yml
 ![img_10.png](./img_10.png)
-
+    
 去给项目的Github Pages添加自定义域名
 ![img_11.png](./img_11.png)
 
 在服务器中去给Github Pages重定向到指定域名
-![img_12.png](./img_12.png)
+![img_12.png](./    img_12.png)

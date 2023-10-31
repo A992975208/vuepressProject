@@ -153,6 +153,114 @@ var res = str.split('').reduce((obj, count) => {
     return obj
 }, {})
 console.log('aaaaaaaa', res)
+```
+
+请求1需要五分钟 请求2需要1分钟 请求2数据先回来 请求1回来后覆盖了请求2应该怎么做
+:::note
+在这种情况下，您可以使用Promise.all()
+方法来等待所有请求完成后再进行下一步操作。您可以将两个请求封装在Promise对象中，然后将它们传递给Promise.all()
+方法。这样，只有当两个请求都完成后，您才会得到一个包含两个响应的数组。您可以使用.then()
+方法来处理这个数组并进行下一步操作。如果您想要确保请求2的响应先于请求1的响应，您可以将它们的顺序颠倒过来，以便在Promise.all()
+方法中首先传递请求2的Promise对象
+:::
+
+```js
+function request1() {
+    return new Promise(function (resolve, reject) {
+        // 发送请求1
+        setTimeout(function () {
+            resolve('请求1的响应');
+        }, 300000); // 5分钟
+    });
+}
+
+function request2() {
+    return new Promise(function (resolve, reject) {
+        // 发送请求2
+        setTimeout(function () {
+            resolve('请求2的响应');
+        }, 60000); // 1分钟
+    });
+}
+
+Promise.all([request2(), request1()]).then(function (responses) {
+    // 处理响应数组
+    console.log(responses[0]); // 请求2的响应
+    console.log(responses[1]); // 请求1的响应
+});
+```
+
+JavaScript 异步编程 Promise，如何终止一个正在进行等待返回的 Promise
+```js
+想要中断调用链很简单，就是在 then/catch 的最后一行返回一个永远 pending 的 promise 就可以了，这样后续 promise 就一直等待。如图中间 promise 不返回结果就会一直卡在这里。
+somePromise
+    .then(() => {})
+    .then(() => {
+        // 终止 Promise 链，让下面的 then、catch 和 finally 都不执行
+    })
+    .then(() => console.log('then'))
+    .catch(() => console.log('catch'))
+    .finally(() => console.log('finally'))
+
+// 返回一个永远 pending 的 promise
+return new Promise((resolve, reject) => {})
+```
+
+数组扁平化
+```js
+    let arr = [[1, 2, [3, 4], 5], [6, 7, 8], [[9, 10], 11]];
+    function flat(arr) {
+      let result = [];
+      arr.map(item => {
+        if (Array.isArray(item)) {
+          result = result.concat(flat(item));
+        } else {
+          result.push(item);
+        }
+      });
+      return result;
+    }
+    console.log(flat(arr)); // [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+```
+
+数组去重
+```js
+1.
+var arr = [1, 2, 3,4 ,5,6, 4, 3, 8, 1]
+// 数组去重：
+// 方法4： set
+function newArrFn (arr) {
+    // .new Set方法，返回是一个类数组，需要结合 ...运算符，转成真实数组
+    return ([...new Set(arr)])
+}
+console.log(newArrFn(arr));
 
 
+2.
+var arr = [1, 2, 3,4 ,5,6, 4, 3, 8, 1]
+// 数组去重：
+// 方法6 ：filter + findIndex
+function newArrFn (arr) {
+    // 利用indexOf检测元素在数组中第一次出现的位置是否和元素现在的位置相等，
+    // 如果相等，说明数组中没有重复的
+    return Array.prototype.filter.call(arr, function (item, index) {
+        return arr.indexOf(item) === index
+    })
+}
+console.log(newArrFn(arr));
+
+3.
+var arr = [1, 2, 3,4 ,5,6, 4, 3, 8, 1]
+// 数组去重：
+// 方法7 ：for + includes
+function newArrFn (arr) {
+    // 利用includes 检查新数组是否包含原数组的每一项
+    // 如果不包含，就push进去
+    let newArr = []
+    for(let i = 0;i<arr.length;i++){
+        newArr.includes(arr[i]) ? newArr:  newArr.push(arr[i])
+    };
+    return newArr
+}
+console.log(newArrFn(arr));
 ```
